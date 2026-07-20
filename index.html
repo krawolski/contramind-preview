@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contramind - It knows your startup. It will not just agree with you.</title>
+<meta name="description" content="The strategic thinking partner for solo founders. It remembers your decisions, metrics, and pivots. Then it challenges your next move.">
+<link rel="icon" href="/contramind-preview/icon.svg" type="image/svg+xml">
+<style>
+/* ---------- landing page specific styles ---------- */
+
+/* hero */
+.hero {
+  padding: 88px 0 104px;
+  border-top: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+.hero-copy .tag { margin-bottom: 22px; }
+.hero-copy h1 { margin-bottom: 20px; }
+.hero-copy .sub {
+  color: var(--text-2);
+  font-size: 1.08rem;
+  max-width: 460px;
+  margin-bottom: 32px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.hero-note {
+  margin-top: 16px;
+  font-size: 0.84rem;
+  color: var(--text-3);
+}
+
+/* hero animation stage */
+.hero-stage {
+  perspective: 1400px;
+  position: relative;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-stage .brief-card {
+  transform: rotateX(4deg) rotateY(-5deg);
+  transform-style: preserve-3d;
+}
+.hero-stage .verdict-pill { transform: translateZ(26px); }
+
+.intake-card {
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  width: min(300px, 86%);
+  border-radius: var(--r-md);
+  padding: 18px 18px 16px;
+  z-index: 2;
+}
+.intake-a .typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  max-width: 100%;
+}
+
+/* animation cycle: 12s, pauses on hover */
+.anim .q1, .anim .q2, .anim .q3 { position: absolute; inset: 0; opacity: 0; }
+.intake-frame { position: relative; min-height: 5.6em; }
+
+.anim .q1 { animation: q-slot-1 12s var(--ease) infinite; }
+.anim .q2 { animation: q-slot-2 12s var(--ease) infinite; }
+.anim .q3 { animation: q-slot-3 12s var(--ease) infinite; }
+@keyframes q-slot-1 {
+  0%, 2% { opacity: 0; } 4%, 18% { opacity: 1; } 21%, 100% { opacity: 0; }
+}
+@keyframes q-slot-2 {
+  0%, 21% { opacity: 0; } 24%, 38% { opacity: 1; } 41%, 100% { opacity: 0; }
+}
+@keyframes q-slot-3 {
+  0%, 41% { opacity: 0; } 44%, 57% { opacity: 1; } 60%, 100% { opacity: 0; }
+}
+.anim .q1 .typed { animation: type-in 12s steps(24, end) infinite; }
+.anim .q2 .typed { animation: type-in-2 12s steps(22, end) infinite; }
+.anim .q3 .typed { animation: type-in-3 12s steps(20, end) infinite; }
+@keyframes type-in {
+  0%, 5% { max-width: 0; } 15%, 100% { max-width: 100%; }
+}
+@keyframes type-in-2 {
+  0%, 25% { max-width: 0; } 35%, 100% { max-width: 100%; }
+}
+@keyframes type-in-3 {
+  0%, 45% { max-width: 0; } 55%, 100% { max-width: 100%; }
+}
+.anim .intake-progress .bar { animation: progress-fill 12s var(--ease) infinite; }
+@keyframes progress-fill {
+  0% { width: 8%; }
+  20% { width: 30%; }
+  40% { width: 62%; }
+  58% { width: 100%; }
+  100% { width: 100%; }
+}
+.anim.intake-card { animation: intake-settle 12s var(--ease) infinite; }
+@keyframes intake-settle {
+  0%, 58% { opacity: 1; transform: translateY(0) scale(1); }
+  64%, 96% { opacity: 0; transform: translateY(18px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* brief sections staggered reveal after intake settles */
+.brief-card.anim .brief-section,
+.brief-card.anim .brief-foot { opacity: 0.25; }
+.brief-card.anim .rv-1 { animation: brief-reveal 12s var(--ease) infinite; }
+.brief-card.anim .rv-2 { animation: brief-reveal-2 12s var(--ease) infinite; }
+.brief-card.anim .rv-3 { animation: brief-reveal-3 12s var(--ease) infinite; }
+.brief-card.anim .rv-4 { animation: brief-reveal-4 12s var(--ease) infinite; }
+@keyframes brief-reveal {
+  0%, 60% { opacity: 0.25; transform: translateY(4px); }
+  64%, 97% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0.25; transform: translateY(4px); }
+}
+@keyframes brief-reveal-2 {
+  0%, 62% { opacity: 0.25; transform: translateY(4px); }
+  66%, 97% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0.25; transform: translateY(4px); }
+}
+@keyframes brief-reveal-3 {
+  0%, 64% { opacity: 0.25; transform: translateY(4px); }
+  68%, 97% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0.25; transform: translateY(4px); }
+}
+@keyframes brief-reveal-4 {
+  0%, 66% { opacity: 0.25; transform: translateY(4px); }
+  70%, 97% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0.25; transform: translateY(4px); }
+}
+/* score count-up */
+@property --sc {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+.brief-card.anim .score::after {
+  counter-reset: sc var(--sc);
+  content: counter(sc);
+  animation: score-up 12s var(--ease) infinite;
+}
+.brief-card.anim .score .static-score { display: none; }
+@keyframes score-up {
+  0%, 66% { --sc: 0; }
+  78%, 97% { --sc: 72; }
+  100% { --sc: 0; }
+}
+/* pause the whole cycle on hover */
+.hero-stage:hover .anim,
+.hero-stage:hover .anim .typed,
+.hero-stage:hover .anim .bar,
+.hero-stage:hover .anim .q1,
+.hero-stage:hover .anim .q2,
+.hero-stage:hover .anim .q3,
+.hero-stage:hover .brief-card.anim .rv-1,
+.hero-stage:hover .brief-card.anim .rv-2,
+.hero-stage:hover .brief-card.anim .rv-3,
+.hero-stage:hover .brief-card.anim .rv-4,
+.hero-stage:hover .brief-card.anim .score::after {
+  animation-play-state: paused;
+}
+
+/* contrast strip */
+.strip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.strip-cell {
+  background: var(--surface-1);
+  padding: 30px 28px;
+}
+.strip-cell .cell-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.strip-cell h3 { margin-bottom: 8px; }
+.strip-cell p { font-size: 0.92rem; color: var(--text-2); }
+
+/* how it works */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.step { padding: 28px; }
+.step .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline-strong);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 18px;
+}
+
+/* challenger demo */
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.demo-card .demo-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+.demo-prompt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+}
+.demo-answer {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.demo-answer strong { color: var(--text); font-weight: 600; }
+.demo-answer .cite {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+.demo-card.contra { border-color: var(--hairline-strong); }
+.demo-verdict {
+  margin-top: auto;
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-dim);
+  color: var(--accent-hot);
+  border-radius: var(--r-pill);
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* trust */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* pricing */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 780px;
+}
+
+/* email capture */
+.capture-card {
+  background: var(--surface-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+}
+.capture-card h2 { margin-bottom: 10px; }
+.capture-card .cap-sub { color: var(--text-2); font-size: 0.96rem; }
+.capture-form { display: flex; gap: 10px; }
+.capture-form input { flex: 1; min-width: 0; }
+.capture-note { margin-top: 10px; font-size: 0.8rem; color: var(--text-3); }
+
+/* final CTA */
+.final-cta { text-align: center; }
+.final-cta h2 { max-width: 560px; margin: 0 auto 14px; }
+.final-cta p { color: var(--text-2); margin-bottom: 30px; }
+
+/* reduced motion (page) */
+@media (prefers-reduced-motion: reduce) {
+  .anim.intake-card { display: none; }
+  .brief-card.anim .brief-section,
+  .brief-card.anim .brief-foot { opacity: 1; animation: none; }
+  .brief-card.anim .rv-1, .brief-card.anim .rv-2,
+  .brief-card.anim .rv-3, .brief-card.anim .rv-4 { animation: none; }
+  .brief-card.anim .score::after { content: none; animation: none; }
+  .brief-card.anim .score .static-score { display: inline; }
+  .hero-stage .brief-card { transform: none; }
+}
+
+/* responsive (page) */
+@media (max-width: 900px) {
+  .hero { padding: 56px 0 80px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+  .hero-stage { min-height: 0; }
+  .strip-grid, .steps, .trust-grid, .demo-grid, .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .capture-card { grid-template-columns: 1fr; padding: 30px 24px; gap: 24px; }
+}
+@media (max-width: 480px) {
+  .intake-card { right: 0; bottom: -14px; }
+  .capture-form { flex-direction: column; }
+  .capture-form .btn { width: 100%; }
+}
+</style>
+  <link rel="stylesheet" crossorigin href="/contramind-preview/assets/style-D5O9HSqj.css">
+</head>
+<body>
+
+<div class="hero-glow" aria-hidden="true"></div>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="nav-inner glass">
+    <a href="#top" class="wordmark">contra<span class="wm-b">mind</span></a>
+    <ul class="nav-links">
+      <li><a href="#how" data-i18n="nav.how">How it works</a></li>
+      <li><a href="#memory" data-i18n="nav.memory">Memory</a></li>
+      <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="de" aria-pressed="false">DE</button>
+        <button type="button" data-lang="pl" aria-pressed="false">PL</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      </div>
+      <a href="#intake" class="btn btn-primary btn-sm" data-i18n="cta.start">Start the 10 questions</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="tag tag-pill" data-i18n="hero.tag">For solo founders</span>
+        <h1 data-i18n="hero.h1">It knows your startup. It will not just agree with you.</h1>
+        <p class="sub" data-i18n="hero.sub">Contramind remembers your decisions, metrics, and pivots. Then it pressure-tests your next move against all of it. A thinking partner that gets sharper about your company every week.</p>
+        <div class="hero-ctas">
+          <a href="#intake" class="btn btn-primary" data-i18n="cta.start">Start the 10 questions</a>
+          <a href="#how" class="btn btn-ghost" data-i18n="hero.ctaSecondary">See how it works</a>
+        </div>
+        <p class="hero-note" data-i18n="hero.note">Free. No signup. One-page startup brief in 10 minutes.</p>
+      </div>
+
+      <div class="hero-stage" id="intake" aria-label="Product preview: intake questions become a startup brief">
+        <!-- the brief card -->
+        <article class="brief-card anim">
+          <div class="brief-head">
+            <span class="doc-title" data-i18n="brief.title">Startup brief</span>
+            <span class="doc-meta num">Jul 20, 2026</span>
+          </div>
+          <div class="brief-name" data-i18n="preview.name">Loopdesk, B2B scheduling</div>
+          <div class="brief-section rv-1">
+            <div class="bs-label" data-i18n="brief.positioning">Positioning</div>
+            <p data-i18n="preview.pos">Calendar layer for agencies that bill hourly. Wedge: retainer clients, not one-off bookings.</p>
+          </div>
+          <div class="brief-section rv-2">
+            <div class="bs-label" data-i18n="brief.risks">Top risks</div>
+            <p data-i18n="preview.risk">Single acquisition channel. Pricing anchored to a competitor you have not verified.</p>
+          </div>
+          <div class="brief-section rv-3">
+            <div class="bs-label" data-i18n="brief.next">Next move</div>
+            <p data-i18n="preview.nextMove">Interview 5 churned trials before building the integrations backlog.</p>
+          </div>
+          <div class="brief-foot rv-4">
+            <span class="verdict-pill"><span class="score"><span class="static-score num">72</span></span><span>/ 100</span></span>
+            <span class="verdict-word" data-i18n="preview.verdictWord">Fundable thesis, fragile channel</span>
+          </div>
+        </article>
+
+        <!-- the intake card cycling on top -->
+        <div class="intake-card glass anim" aria-hidden="true">
+          <div class="intake-progress"><div class="bar"></div></div>
+          <div class="intake-frame">
+            <div class="q1">
+              <div class="intake-q" data-i18n="preview.q1">Who pays you today, and how much?</div>
+              <div class="intake-a"><span class="typed" data-i18n="preview.a1">3 agencies, $190/mo each</span></div>
+            </div>
+            <div class="q2">
+              <div class="intake-q" data-i18n="preview.q2">What did you change after your last pivot?</div>
+              <div class="intake-a"><span class="typed" data-i18n="preview.a2">Dropped B2C, kept the API</span></div>
+            </div>
+            <div class="q3">
+              <div class="intake-q" data-i18n="preview.q3">Which metric scares you most?</div>
+              <div class="intake-a"><span class="typed" data-i18n="preview.a3">Trial-to-paid at 4%</span></div>
+            </div>
+          </div>
+          <div class="intake-count num" data-i18n="intake.count" data-i18n-n="3">Question 3 of 10</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOT A CHATBOT STRIP -->
+  <section aria-labelledby="strip-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="strip.kicker">Not a chatbot</span>
+        <h2 id="strip-h" data-i18n="strip.h2">Generic AI forgets you by Tuesday. This one keeps score.</h2>
+      </div>
+      <div class="strip-grid reveal">
+        <div class="strip-cell">
+          <div class="cell-label" data-i18n="strip.l1">Remembers</div>
+          <h3 data-i18n="strip.t1">Your company, on file</h3>
+          <p data-i18n="strip.p1">Decisions, metrics, pivots. Every review starts from what you already told it, not from zero.</p>
+        </div>
+        <div class="strip-cell">
+          <div class="cell-label" data-i18n="strip.l2">Challenges</div>
+          <h3 data-i18n="strip.t2">Disagreement, on purpose</h3>
+          <p data-i18n="strip.p2">It argues the other side of your plan. If your idea survives, good. If not, you found out cheap.</p>
+        </div>
+        <div class="strip-cell">
+          <div class="cell-label" data-i18n="strip.l3">Decides with you</div>
+          <h3 data-i18n="strip.t3">A verdict, not a vibe</h3>
+          <p data-i18n="strip.p3">Each review ends with a position: proceed, fix first, or kill. With the reasoning written down.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" aria-labelledby="how-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="how.kicker">How it works</span>
+        <h2 id="how-h" data-i18n="how.h2">Ten questions in. One brief out. Then it compounds.</h2>
+      </div>
+      <div class="steps">
+        <div class="step card reveal">
+          <span class="step-num num">1</span>
+          <h3 data-i18n="how.t1">Answer 10 questions</h3>
+          <p data-i18n="how.p1">Customers, revenue, last pivot, scariest metric. Ten minutes, no signup, no fluff.</p>
+        </div>
+        <div class="step card reveal">
+          <span class="step-num num">2</span>
+          <h3 data-i18n="how.t2">Get your startup brief</h3>
+          <p data-i18n="how.p2">One page: positioning, top risks, next move, and a verdict score. Yours to keep, free.</p>
+        </div>
+        <div class="step card reveal">
+          <span class="step-num num">3</span>
+          <h3 data-i18n="how.t3">Run decision reviews</h3>
+          <p data-i18n="how.p3">Bring any decision. It cross-examines the plan against your history and takes a position.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHALLENGER DEMO -->
+  <section aria-labelledby="demo-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="demo.kicker">The difference</span>
+        <h2 id="demo-h" data-i18n="demo.h2">Same question. Very different answers.</h2>
+        <p data-i18n="demo.sub">You ask: "Should I raise my price from $19 to $49?"</p>
+      </div>
+      <div class="demo-grid">
+        <div class="demo-card card reveal">
+          <span class="demo-label" data-i18n="demo.labelGeneric">Generic AI</span>
+          <div class="demo-prompt" data-i18n="demo.prompt">"Should I raise my price from $19 to $49?"</div>
+          <div class="demo-answer">
+            <strong data-i18n="demo.genericStrong">"Great idea!"</strong>
+            <span data-i18n="demo.genericBody">Raising prices can increase revenue and signal premium value. Consider grandfathering existing users and communicating the change clearly. You could also A/B test the new price point.</span>
+            <span class="cite" data-i18n="demo.genericCite">Knows nothing about your company. Agrees with everything.</span>
+          </div>
+        </div>
+        <div class="demo-card card contra reveal">
+          <span class="demo-label">contramind</span>
+          <div class="demo-prompt" data-i18n="demo.prompt">"Should I raise my price from $19 to $49?"</div>
+          <div class="demo-answer">
+            <strong data-i18n="demo.contraStrong">"Not yet."</strong>
+            <span data-i18n="demo.contraBody">Three weeks ago you logged trial-to-paid at 4% and named it your scariest metric. A 2.5x price hike before fixing conversion tests the wrong variable. Fix activation first. Revisit pricing when trial-to-paid clears 8%.</span>
+            <span class="cite" data-i18n="demo.contraCite">Cites your metrics. Argues from your history.</span>
+          </div>
+          <span class="demo-verdict" data-i18n="demo.verdict">Verdict: fix first</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMORY TEASER -->
+  <section id="memory" aria-labelledby="mem-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="mem.kicker">Memory</span>
+        <h2 id="mem-h" data-i18n="mem.h2">A running record of your company. It reads it before every answer.</h2>
+        <p data-i18n="mem.sub">Every decision, metric, and pivot lands on your timeline. Six months in, it knows your startup better than any advisor you could afford.</p>
+      </div>
+      <div class="timeline reveal">
+        <div class="tl-month" data-i18n="mem.month1">May 2026</div>
+        <div class="tl-entry">
+          <span class="tl-badge" data-i18n="badge.decision">Decision</span>
+          <p><strong data-i18n="mem.e1s">Dropped the B2C waitlist.</strong> <span data-i18n="mem.e1">Focus on agencies with retainer clients.</span></p>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-badge" data-i18n="badge.metric">Metric</span>
+          <p><strong class="num" data-i18n="mem.e2s">MRR $570.</strong> <span data-i18n="mem.e2">3 paying agencies, all from one Slack community.</span></p>
+        </div>
+        <div class="tl-month" data-i18n="mem.month2">June 2026</div>
+        <div class="tl-entry pivot">
+          <span class="tl-badge" data-i18n="badge.pivot">Pivot</span>
+          <p><strong data-i18n="mem.e3s">Repositioned as a calendar layer,</strong> <span data-i18n="mem.e3">not a booking tool. Kept the API, killed the widget.</span></p>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-badge" data-i18n="badge.metric">Metric</span>
+          <p><strong class="num" data-i18n="mem.e4s">Trial-to-paid 4%.</strong> <span data-i18n="mem.e4">Flagged as top risk in review #6.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section aria-labelledby="trust-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="trust.kicker">Trust</span>
+        <h2 id="trust-h" data-i18n="trust.h2">Your startup data stays your startup data.</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card card reveal">
+          <h3 data-i18n="trust.t1">Private by default</h3>
+          <p data-i18n="trust.p1">Your answers and timeline are visible to you alone. Never used to train models. Never sold.</p>
+        </div>
+        <div class="trust-card card reveal">
+          <h3 data-i18n="trust.t2">Export anytime</h3>
+          <p data-i18n="trust.p2">Your brief, your timeline, your reviews: one click to Markdown or PDF. Delete everything just as fast.</p>
+        </div>
+        <div class="trust-card card reveal">
+          <h3 data-i18n="trust.t3">Built by a founder</h3>
+          <p data-i18n="trust.p3">Made by a solo founder who got tired of AI that flatters. Contact and imprint in the footer, a real person answers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" aria-labelledby="price-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="pricing.kicker">Pricing</span>
+        <h2 id="price-h" data-i18n="pricing.h2">Free to start. One flat price when you want more.</h2>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan reveal">
+          <div class="plan-name" data-i18n="pricing.free">Free</div>
+          <div class="price num">$0</div>
+          <div class="plan-sub" data-i18n="pricing.freeSub">No signup for the brief</div>
+          <ul>
+            <li data-i18n="pricing.f1">10-question intake</li>
+            <li data-i18n="pricing.f2">One-page startup brief</li>
+            <li data-i18n="pricing.f3">Company memory timeline</li>
+            <li><span class="num">3</span> <span data-i18n="pricing.f4">deep decision reviews / month</span></li>
+          </ul>
+          <a href="#intake" class="btn btn-ghost" data-i18n="cta.start">Start the 10 questions</a>
+        </div>
+        <div class="plan pro reveal">
+          <div class="plan-name"><span data-i18n="pricing.pro">Pro</span> <span class="pro-badge" data-i18n="pricing.proBadge">Pro</span></div>
+          <div class="price num">$19 <span class="per" data-i18n="pricing.per">/ month</span></div>
+          <div class="plan-sub" data-i18n="pricing.proSub">For weekly decision-making</div>
+          <ul>
+            <li data-i18n="pricing.p1">Everything in Free</li>
+            <li data-i18n="pricing.p2">Unlimited deep decision reviews</li>
+            <li data-i18n="pricing.p3">Longer cross-examinations</li>
+            <li data-i18n="pricing.p4">Priority answers</li>
+          </ul>
+          <a href="#intake" class="btn btn-primary" data-i18n="cta.start">Start the 10 questions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section aria-labelledby="faq-h">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker" data-i18n="faq.kicker">FAQ</span>
+        <h2 id="faq-h" data-i18n="faq.h2">Fair questions.</h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary data-i18n="faq.q1">Why not just use ChatGPT?</summary>
+          <p data-i18n="faq.a1">You can, and it will agree with you. Generic chat starts every conversation from zero and optimizes for being liked. Contramind keeps a structured record of your company and is built to argue the other side. The value is the memory plus the disagreement, not the model.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q2">What happens to my data?</summary>
+          <p data-i18n="faq.a2">It stays yours. Answers and timeline entries are stored for your account only, never used for training, never shared. Export to Markdown or PDF anytime, or delete your data in one action.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q3">What happens when I hit the 3-review limit?</summary>
+          <p data-i18n="faq.a3">Nothing breaks. Your brief and timeline stay fully usable, and a visible counter shows reviews remaining so the limit never surprises you. Reviews reset monthly, or Pro removes the limit for $19/month.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q4">Is this an AI cofounder that does the work for me?</summary>
+          <p data-i18n="faq.a4">No. Execution agents write your code and your emails. Contramind does the opposite job: it stress-tests the thinking before you spend a month executing the wrong plan. You stay the founder.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q5">Do I need to sign up to try it?</summary>
+          <p data-i18n="faq.a5">No. The 10 questions and your one-page brief require no account. You create one only if you want to save your timeline and run decision reviews.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL CAPTURE -->
+  <section aria-labelledby="cap-h">
+    <div class="container">
+      <div class="capture-card reveal">
+        <div>
+          <h2 id="cap-h" data-i18n="capture.h2">Send me the brief as a PDF</h2>
+          <p class="cap-sub" data-i18n="capture.sub">Finish the 10 questions, drop your email, get your startup brief as a clean one-page PDF. That is the whole deal.</p>
+        </div>
+        <div>
+          <form class="capture-form" id="capture-form">
+            <label for="cap-email" class="visually-hidden" data-i18n="capture.label">Email address</label>
+            <input id="cap-email" class="text-input" type="email" placeholder="you@yourstartup.com" autocomplete="email" data-i18n-placeholder="capture.placeholder" required>
+            <button type="submit" class="btn btn-ghost" data-i18n="capture.btn">Email my brief</button>
+          </form>
+          <p class="capture-note" id="capture-note" data-i18n="capture.note">One email with your PDF. No sequence, no spam.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta" aria-labelledby="final-h">
+    <div class="container reveal">
+      <h2 id="final-h" data-i18n="final.h2">Ten minutes from now, you could know your top three risks.</h2>
+      <p data-i18n="final.sub">Free brief. No signup. The pushback starts immediately.</p>
+      <a href="#intake" class="btn btn-primary" data-i18n="cta.start">Start the 10 questions</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="wordmark">contra<span class="wm-b">mind</span></span>
+    <a href="#" data-i18n="footer.imprint">Imprint</a>
+    <a href="#" data-i18n="footer.privacy">Privacy</a>
+    <a href="#" data-i18n="footer.contact">Contact</a>
+    <div class="footer-langs" aria-label="Languages">
+      <a href="#" data-lang="en" aria-current="true">EN</a>
+      <a href="#" data-lang="de">DE</a>
+      <a href="#" data-lang="pl">PL</a>
+      <a href="#" data-lang="fr">FR</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- inline i18n (landing subset, same keys per locale) ---------- */
+  var LANG_KEY = "contramind-lang";
+  var LANGS = ["en", "de", "pl", "fr"];
+
+  var I18N = {
+    en: {
+      "meta.title": "Contramind - It knows your startup. It will not just agree with you.",
+      "meta.desc": "The strategic thinking partner for solo founders. It remembers your decisions, metrics, and pivots. Then it challenges your next move.",
+      "nav.how": "How it works",
+      "nav.memory": "Memory",
+      "nav.pricing": "Pricing",
+      "cta.start": "Start the 10 questions",
+      "hero.tag": "For solo founders",
+      "hero.h1": "It knows your startup. It will not just agree with you.",
+      "hero.sub": "Contramind remembers your decisions, metrics, and pivots. Then it pressure-tests your next move against all of it. A thinking partner that gets sharper about your company every week.",
+      "hero.ctaSecondary": "See how it works",
+      "hero.note": "Free. No signup. One-page startup brief in 10 minutes.",
+      "brief.title": "Startup brief",
+      "brief.positioning": "Positioning",
+      "brief.risks": "Top risks",
+      "brief.next": "Next move",
+      "preview.name": "Loopdesk, B2B scheduling",
+      "preview.pos": "Calendar layer for agencies that bill hourly. Wedge: retainer clients, not one-off bookings.",
+      "preview.risk": "Single acquisition channel. Pricing anchored to a competitor you have not verified.",
+      "preview.nextMove": "Interview 5 churned trials before building the integrations backlog.",
+      "preview.verdictWord": "Fundable thesis, fragile channel",
+      "preview.q1": "Who pays you today, and how much?",
+      "preview.a1": "3 agencies, $190/mo each",
+      "preview.q2": "What did you change after your last pivot?",
+      "preview.a2": "Dropped B2C, kept the API",
+      "preview.q3": "Which metric scares you most?",
+      "preview.a3": "Trial-to-paid at 4%",
+      "intake.count": "Question {n} of 10",
+      "strip.kicker": "Not a chatbot",
+      "strip.h2": "Generic AI forgets you by Tuesday. This one keeps score.",
+      "strip.l1": "Remembers",
+      "strip.t1": "Your company, on file",
+      "strip.p1": "Decisions, metrics, pivots. Every review starts from what you already told it, not from zero.",
+      "strip.l2": "Challenges",
+      "strip.t2": "Disagreement, on purpose",
+      "strip.p2": "It argues the other side of your plan. If your idea survives, good. If not, you found out cheap.",
+      "strip.l3": "Decides with you",
+      "strip.t3": "A verdict, not a vibe",
+      "strip.p3": "Each review ends with a position: proceed, fix first, or kill. With the reasoning written down.",
+      "how.kicker": "How it works",
+      "how.h2": "Ten questions in. One brief out. Then it compounds.",
+      "how.t1": "Answer 10 questions",
+      "how.p1": "Customers, revenue, last pivot, scariest metric. Ten minutes, no signup, no fluff.",
+      "how.t2": "Get your startup brief",
+      "how.p2": "One page: positioning, top risks, next move, and a verdict score. Yours to keep, free.",
+      "how.t3": "Run decision reviews",
+      "how.p3": "Bring any decision. It cross-examines the plan against your history and takes a position.",
+      "demo.kicker": "The difference",
+      "demo.h2": "Same question. Very different answers.",
+      "demo.sub": "You ask: \"Should I raise my price from $19 to $49?\"",
+      "demo.labelGeneric": "Generic AI",
+      "demo.prompt": "\"Should I raise my price from $19 to $49?\"",
+      "demo.genericStrong": "\"Great idea!\"",
+      "demo.genericBody": "Raising prices can increase revenue and signal premium value. Consider grandfathering existing users and communicating the change clearly. You could also A/B test the new price point.",
+      "demo.genericCite": "Knows nothing about your company. Agrees with everything.",
+      "demo.contraStrong": "\"Not yet.\"",
+      "demo.contraBody": "Three weeks ago you logged trial-to-paid at 4% and named it your scariest metric. A 2.5x price hike before fixing conversion tests the wrong variable. Fix activation first. Revisit pricing when trial-to-paid clears 8%.",
+      "demo.contraCite": "Cites your metrics. Argues from your history.",
+      "demo.verdict": "Verdict: fix first",
+      "mem.kicker": "Memory",
+      "mem.h2": "A running record of your company. It reads it before every answer.",
+      "mem.sub": "Every decision, metric, and pivot lands on your timeline. Six months in, it knows your startup better than any advisor you could afford.",
+      "mem.month1": "May 2026",
+      "mem.month2": "June 2026",
+      "badge.decision": "Decision",
+      "badge.metric": "Metric",
+      "badge.pivot": "Pivot",
+      "mem.e1s": "Dropped the B2C waitlist.",
+      "mem.e1": "Focus on agencies with retainer clients.",
+      "mem.e2s": "MRR $570.",
+      "mem.e2": "3 paying agencies, all from one Slack community.",
+      "mem.e3s": "Repositioned as a calendar layer,",
+      "mem.e3": "not a booking tool. Kept the API, killed the widget.",
+      "mem.e4s": "Trial-to-paid 4%.",
+      "mem.e4": "Flagged as top risk in review #6.",
+      "trust.kicker": "Trust",
+      "trust.h2": "Your startup data stays your startup data.",
+      "trust.t1": "Private by default",
+      "trust.p1": "Your answers and timeline are visible to you alone. Never used to train models. Never sold.",
+      "trust.t2": "Export anytime",
+      "trust.p2": "Your brief, your timeline, your reviews: one click to Markdown or PDF. Delete everything just as fast.",
+      "trust.t3": "Built by a founder",
+      "trust.p3": "Made by a solo founder who got tired of AI that flatters. Contact and imprint in the footer, a real person answers.",
+      "pricing.kicker": "Pricing",
+      "pricing.h2": "Free to start. One flat price when you want more.",
+      "pricing.free": "Free",
+      "pricing.freeSub": "No signup for the brief",
+      "pricing.f1": "10-question intake",
+      "pricing.f2": "One-page startup brief",
+      "pricing.f3": "Company memory timeline",
+      "pricing.f4": "deep decision reviews / month",
+      "pricing.pro": "Pro",
+      "pricing.proBadge": "Pro",
+      "pricing.proSub": "For weekly decision-making",
+      "pricing.per": "/ month",
+      "pricing.p1": "Everything in Free",
+      "pricing.p2": "Unlimited deep decision reviews",
+      "pricing.p3": "Longer cross-examinations",
+      "pricing.p4": "Priority answers",
+      "faq.kicker": "FAQ",
+      "faq.h2": "Fair questions.",
+      "faq.q1": "Why not just use ChatGPT?",
+      "faq.a1": "You can, and it will agree with you. Generic chat starts every conversation from zero and optimizes for being liked. Contramind keeps a structured record of your company and is built to argue the other side. The value is the memory plus the disagreement, not the model.",
+      "faq.q2": "What happens to my data?",
+      "faq.a2": "It stays yours. Answers and timeline entries are stored for your account only, never used for training, never shared. Export to Markdown or PDF anytime, or delete your data in one action.",
+      "faq.q3": "What happens when I hit the 3-review limit?",
+      "faq.a3": "Nothing breaks. Your brief and timeline stay fully usable, and a visible counter shows reviews remaining so the limit never surprises you. Reviews reset monthly, or Pro removes the limit for $19/month.",
+      "faq.q4": "Is this an AI cofounder that does the work for me?",
+      "faq.a4": "No. Execution agents write your code and your emails. Contramind does the opposite job: it stress-tests the thinking before you spend a month executing the wrong plan. You stay the founder.",
+      "faq.q5": "Do I need to sign up to try it?",
+      "faq.a5": "No. The 10 questions and your one-page brief require no account. You create one only if you want to save your timeline and run decision reviews.",
+      "capture.h2": "Send me the brief as a PDF",
+      "capture.sub": "Finish the 10 questions, drop your email, get your startup brief as a clean one-page PDF. That is the whole deal.",
+      "capture.label": "Email address",
+      "capture.placeholder": "you@yourstartup.com",
+      "capture.btn": "Email my brief",
+      "capture.note": "One email with your PDF. No sequence, no spam.",
+      "capture.done": "Noted. Your brief will land in your inbox.",
+      "final.h2": "Ten minutes from now, you could know your top three risks.",
+      "final.sub": "Free brief. No signup. The pushback starts immediately.",
+      "footer.imprint": "Imprint",
+      "footer.privacy": "Privacy",
+      "footer.contact": "Contact"
+    },
+    de: {
+      "meta.title": "Contramind - Es kennt dein Startup. Und es stimmt dir nicht einfach zu.",
+      "meta.desc": "Der strategische Denkpartner für Solo-Gründer. Er merkt sich deine Entscheidungen, Metriken und Pivots. Und stellt dann deinen nächsten Schritt infrage.",
+      "nav.how": "So funktioniert es",
+      "nav.memory": "Gedächtnis",
+      "nav.pricing": "Preise",
+      "cta.start": "Starte die 10 Fragen",
+      "hero.tag": "Für Solo-Gründer",
+      "hero.h1": "Es kennt dein Startup. Und es stimmt dir nicht einfach zu.",
+      "hero.sub": "Contramind merkt sich deine Entscheidungen, Metriken und Pivots. Dann prüft es deinen nächsten Schritt gegen all das. Ein Denkpartner, der jede Woche schärfer auf dein Unternehmen blickt.",
+      "hero.ctaSecondary": "Sieh dir an, wie es funktioniert",
+      "hero.note": "Kostenlos. Ohne Anmeldung. Dein einseitiger Startup-Brief in 10 Minuten.",
+      "brief.title": "Startup-Brief",
+      "brief.positioning": "Positionierung",
+      "brief.risks": "Top-Risiken",
+      "brief.next": "Nächster Schritt",
+      "preview.name": "Loopdesk, B2B-Terminplanung",
+      "preview.pos": "Kalender-Layer für Agenturen, die nach Stunden abrechnen. Einstieg: Retainer-Kunden, keine Einzelbuchungen.",
+      "preview.risk": "Nur ein Akquise-Kanal. Preis an einem Wettbewerber verankert, den du nie geprüft hast.",
+      "preview.nextMove": "Sprich mit 5 abgesprungenen Trials, bevor du das Integrations-Backlog baust.",
+      "preview.verdictWord": "Tragfähige These, fragiler Kanal",
+      "preview.q1": "Wer bezahlt dich heute, und wie viel?",
+      "preview.a1": "3 Agenturen, je $190/Monat",
+      "preview.q2": "Was hast du nach deinem letzten Pivot geändert?",
+      "preview.a2": "B2C gestrichen, API behalten",
+      "preview.q3": "Welche Metrik macht dir am meisten Angst?",
+      "preview.a3": "Trial-to-Paid bei 4%",
+      "intake.count": "Frage {n} von 10",
+      "strip.kicker": "Kein Chatbot",
+      "strip.h2": "Generische KI hat dich bis Dienstag vergessen. Diese führt Buch.",
+      "strip.l1": "Merkt sich",
+      "strip.t1": "Dein Unternehmen, in der Akte",
+      "strip.p1": "Entscheidungen, Metriken, Pivots. Jedes Review startet bei dem, was du ihm schon erzählt hast, nicht bei null.",
+      "strip.l2": "Widerspricht",
+      "strip.t2": "Widerspruch, mit Absicht",
+      "strip.p2": "Es argumentiert die Gegenseite deines Plans. Überlebt deine Idee, gut. Wenn nicht, hast du es günstig erfahren.",
+      "strip.l3": "Entscheidet mit dir",
+      "strip.t3": "Ein Urteil, kein Bauchgefühl",
+      "strip.p3": "Jedes Review endet mit einer Position: weitermachen, erst reparieren oder beerdigen. Mit schriftlicher Begründung.",
+      "how.kicker": "So funktioniert es",
+      "how.h2": "Zehn Fragen rein. Ein Brief raus. Danach verzinst es sich.",
+      "how.t1": "Beantworte 10 Fragen",
+      "how.p1": "Kunden, Umsatz, letzter Pivot, gruseligste Metrik. Zehn Minuten, keine Anmeldung, kein Geschwafel.",
+      "how.t2": "Erhalte deinen Startup-Brief",
+      "how.p2": "Eine Seite: Positionierung, Top-Risiken, nächster Schritt und ein Urteils-Score. Gehört dir, kostenlos.",
+      "how.t3": "Führe Decision Reviews durch",
+      "how.p3": "Bring jede Entscheidung mit. Es nimmt den Plan gegen deine Historie ins Kreuzverhör und bezieht Position.",
+      "demo.kicker": "Der Unterschied",
+      "demo.h2": "Gleiche Frage. Sehr verschiedene Antworten.",
+      "demo.sub": "Du fragst: \"Soll ich meinen Preis von $19 auf $49 erhöhen?\"",
+      "demo.labelGeneric": "Generische KI",
+      "demo.prompt": "\"Soll ich meinen Preis von $19 auf $49 erhöhen?\"",
+      "demo.genericStrong": "\"Super Idee!\"",
+      "demo.genericBody": "Preiserhöhungen können den Umsatz steigern und Premium-Wert signalisieren. Denk an Bestandsschutz für bestehende Nutzer und klare Kommunikation. Du könntest den neuen Preis auch per A/B-Test prüfen.",
+      "demo.genericCite": "Weiß nichts über dein Unternehmen. Stimmt allem zu.",
+      "demo.contraStrong": "\"Noch nicht.\"",
+      "demo.contraBody": "Vor drei Wochen hast du Trial-to-Paid mit 4% geloggt und sie deine gruseligste Metrik genannt. Eine 2,5-fache Preiserhöhung vor dem Conversion-Fix testet die falsche Variable. Repariere erst die Aktivierung. Preise neu bewerten, wenn Trial-to-Paid über 8% liegt.",
+      "demo.contraCite": "Zitiert deine Metriken. Argumentiert aus deiner Historie.",
+      "demo.verdict": "Urteil: erst reparieren",
+      "mem.kicker": "Gedächtnis",
+      "mem.h2": "Eine laufende Akte deines Unternehmens. Es liest sie vor jeder Antwort.",
+      "mem.sub": "Jede Entscheidung, Metrik und jeder Pivot landet auf deiner Timeline. Nach sechs Monaten kennt es dein Startup besser als jeder Berater, den du dir leisten könntest.",
+      "mem.month1": "Mai 2026",
+      "mem.month2": "Juni 2026",
+      "badge.decision": "Entscheidung",
+      "badge.metric": "Metrik",
+      "badge.pivot": "Pivot",
+      "mem.e1s": "B2C-Warteliste gestrichen.",
+      "mem.e1": "Fokus auf Agenturen mit Retainer-Kunden.",
+      "mem.e2s": "MRR $570.",
+      "mem.e2": "3 zahlende Agenturen, alle aus einer Slack-Community.",
+      "mem.e3s": "Neu positioniert als Kalender-Layer,",
+      "mem.e3": "nicht als Buchungstool. API behalten, Widget beerdigt.",
+      "mem.e4s": "Trial-to-Paid 4%.",
+      "mem.e4": "Als Top-Risiko markiert in Review #6.",
+      "trust.kicker": "Vertrauen",
+      "trust.h2": "Deine Startup-Daten bleiben deine Startup-Daten.",
+      "trust.t1": "Privat per Default",
+      "trust.p1": "Deine Antworten und deine Timeline siehst nur du. Nie fürs Training von Modellen genutzt. Nie verkauft.",
+      "trust.t2": "Jederzeit exportieren",
+      "trust.p2": "Dein Brief, deine Timeline, deine Reviews: ein Klick zu Markdown oder PDF. Alles löschen geht genauso schnell.",
+      "trust.t3": "Von einem Gründer gebaut",
+      "trust.p3": "Gemacht von einem Solo-Gründer, der KI satt hatte, die nur schmeichelt. Kontakt und Impressum im Footer, ein echter Mensch antwortet.",
+      "pricing.kicker": "Preise",
+      "pricing.h2": "Kostenlos starten. Ein flacher Preis, wenn du mehr willst.",
+      "pricing.free": "Free",
+      "pricing.freeSub": "Kein Konto für den Brief nötig",
+      "pricing.f1": "Intake mit 10 Fragen",
+      "pricing.f2": "Einseitiger Startup-Brief",
+      "pricing.f3": "Timeline als Firmengedächtnis",
+      "pricing.f4": "Deep Decision Reviews / Monat",
+      "pricing.pro": "Pro",
+      "pricing.proBadge": "Pro",
+      "pricing.proSub": "Für wöchentliche Entscheidungen",
+      "pricing.per": "/ Monat",
+      "pricing.p1": "Alles aus Free",
+      "pricing.p2": "Unbegrenzte Deep Decision Reviews",
+      "pricing.p3": "Längere Kreuzverhöre",
+      "pricing.p4": "Antworten mit Priorität",
+      "faq.kicker": "FAQ",
+      "faq.h2": "Faire Fragen.",
+      "faq.q1": "Warum nicht einfach ChatGPT nehmen?",
+      "faq.a1": "Kannst du, und es wird dir zustimmen. Generischer Chat startet jedes Gespräch bei null und optimiert darauf, gemocht zu werden. Contramind führt eine strukturierte Akte deines Unternehmens und ist dafür gebaut, die Gegenseite zu vertreten. Der Wert ist das Gedächtnis plus der Widerspruch, nicht das Modell.",
+      "faq.q2": "Was passiert mit meinen Daten?",
+      "faq.a2": "Sie bleiben deine. Antworten und Timeline-Einträge werden nur für dein Konto gespeichert, nie fürs Training genutzt, nie geteilt. Exportiere jederzeit zu Markdown oder PDF, oder lösche deine Daten mit einer Aktion.",
+      "faq.q3": "Was passiert, wenn ich das Limit von 3 Reviews erreiche?",
+      "faq.a3": "Nichts geht kaputt. Brief und Timeline bleiben voll nutzbar, und ein sichtbarer Zähler zeigt die verbleibenden Reviews, damit dich das Limit nie überrascht. Reviews setzen sich monatlich zurück, oder Pro hebt das Limit für $19/Monat auf.",
+      "faq.q4": "Ist das ein KI-Cofounder, der die Arbeit für mich macht?",
+      "faq.a4": "Nein. Ausführende Agenten schreiben deinen Code und deine E-Mails. Contramind macht den umgekehrten Job: Es testet das Denken auf Belastbarkeit, bevor du einen Monat lang den falschen Plan umsetzt. Du bleibst der Gründer.",
+      "faq.q5": "Muss ich mich anmelden, um es auszuprobieren?",
+      "faq.a5": "Nein. Die 10 Fragen und dein einseitiger Brief brauchen kein Konto. Du erstellst nur eins, wenn du deine Timeline speichern und Decision Reviews durchführen willst.",
+      "capture.h2": "Schick mir den Brief als PDF",
+      "capture.sub": "Beantworte die 10 Fragen, hinterlasse deine E-Mail, erhalte deinen Startup-Brief als sauberes einseitiges PDF. Das ist der ganze Deal.",
+      "capture.label": "E-Mail-Adresse",
+      "capture.placeholder": "du@deinstartup.com",
+      "capture.btn": "Brief per E-Mail",
+      "capture.note": "Eine E-Mail mit deinem PDF. Keine Serie, kein Spam.",
+      "capture.done": "Notiert. Dein Brief landet in deinem Postfach.",
+      "final.h2": "In zehn Minuten könntest du deine drei größten Risiken kennen.",
+      "final.sub": "Kostenloser Brief. Keine Anmeldung. Der Widerspruch beginnt sofort.",
+      "footer.imprint": "Impressum",
+      "footer.privacy": "Datenschutz",
+      "footer.contact": "Kontakt"
+    },
+    pl: {
+      "meta.title": "Contramind - Zna twój startup. I nie będzie ci tylko przytakiwać.",
+      "meta.desc": "Strategiczny partner do myślenia dla solo founderów. Pamięta twoje decyzje, metryki i pivoty. A potem kwestionuje twój następny ruch.",
+      "nav.how": "Jak to działa",
+      "nav.memory": "Pamięć",
+      "nav.pricing": "Cennik",
+      "cta.start": "Zacznij od 10 pytań",
+      "hero.tag": "Dla solo founderów",
+      "hero.h1": "Zna twój startup. I nie będzie ci tylko przytakiwać.",
+      "hero.sub": "Contramind pamięta twoje decyzje, metryki i pivoty. Potem konfrontuje z nimi twój następny ruch. Partner do myślenia, który z każdym tygodniem lepiej rozumie twoją firmę.",
+      "hero.ctaSecondary": "Zobacz, jak to działa",
+      "hero.note": "Za darmo. Bez rejestracji. Jednostronicowy brief startupu w 10 minut.",
+      "brief.title": "Brief startupu",
+      "brief.positioning": "Pozycjonowanie",
+      "brief.risks": "Główne ryzyka",
+      "brief.next": "Następny ruch",
+      "preview.name": "Loopdesk, planowanie B2B",
+      "preview.pos": "Warstwa kalendarza dla agencji rozliczających się godzinowo. Klin: klienci na retainerze, nie pojedyncze rezerwacje.",
+      "preview.risk": "Jeden kanał pozyskiwania klientów. Cena zakotwiczona w konkurencie, którego nie zweryfikowałeś.",
+      "preview.nextMove": "Porozmawiaj z 5 utraconymi trialami, zanim zbudujesz backlog integracji.",
+      "preview.verdictWord": "Sensowna teza, kruchy kanał",
+      "preview.q1": "Kto ci dziś płaci i ile?",
+      "preview.a1": "3 agencje, po $190/mies.",
+      "preview.q2": "Co zmieniłeś po ostatnim pivocie?",
+      "preview.a2": "Wyciąłem B2C, zostawiłem API",
+      "preview.q3": "Która metryka najbardziej cię przeraża?",
+      "preview.a3": "Trial-to-paid na poziomie 4%",
+      "intake.count": "Pytanie {n} z 10",
+      "strip.kicker": "To nie chatbot",
+      "strip.h2": "Zwykłe AI zapomni o tobie do wtorku. To prowadzi rejestr.",
+      "strip.l1": "Pamięta",
+      "strip.t1": "Twoja firma, w aktach",
+      "strip.p1": "Decyzje, metryki, pivoty. Każda analiza zaczyna się od tego, co już mu powiedziałeś, nie od zera.",
+      "strip.l2": "Kwestionuje",
+      "strip.t2": "Niezgoda, celowo",
+      "strip.p2": "Argumentuje przeciwko twojemu planowi. Jeśli pomysł przetrwa, dobrze. Jeśli nie, dowiedziałeś się tanio.",
+      "strip.l3": "Decyduje z tobą",
+      "strip.t3": "Werdykt, nie vibe",
+      "strip.p3": "Każda analiza kończy się stanowiskiem: działaj, najpierw napraw albo ubij. Z zapisanym uzasadnieniem.",
+      "how.kicker": "Jak to działa",
+      "how.h2": "Dziesięć pytań na wejściu. Jeden brief na wyjściu. Potem procent składany.",
+      "how.t1": "Odpowiedz na 10 pytań",
+      "how.p1": "Klienci, przychody, ostatni pivot, najstraszniejsza metryka. Dziesięć minut, bez rejestracji, bez lania wody.",
+      "how.t2": "Odbierz brief startupu",
+      "how.p2": "Jedna strona: pozycjonowanie, główne ryzyka, następny ruch i werdykt z punktacją. Twój na zawsze, za darmo.",
+      "how.t3": "Przeprowadzaj przeglądy decyzji",
+      "how.p3": "Przynieś dowolną decyzję. Bierze plan w krzyżowy ogień pytań na tle twojej historii i zajmuje stanowisko.",
+      "demo.kicker": "Różnica",
+      "demo.h2": "To samo pytanie. Zupełnie inne odpowiedzi.",
+      "demo.sub": "Pytasz: \"Podnieść cenę z $19 na $49?\"",
+      "demo.labelGeneric": "Zwykłe AI",
+      "demo.prompt": "\"Podnieść cenę z $19 na $49?\"",
+      "demo.genericStrong": "\"Świetny pomysł!\"",
+      "demo.genericBody": "Podniesienie cen może zwiększyć przychody i sygnalizować wartość premium. Rozważ ochronę obecnych użytkowników i jasną komunikację zmiany. Możesz też przetestować nową cenę w teście A/B.",
+      "demo.genericCite": "Nie wie nic o twojej firmie. Zgadza się ze wszystkim.",
+      "demo.contraStrong": "\"Jeszcze nie.\"",
+      "demo.contraBody": "Trzy tygodnie temu zapisałeś trial-to-paid na 4% i nazwałeś to swoją najstraszniejszą metryką. Podwyżka 2,5x przed naprawą konwersji testuje złą zmienną. Najpierw napraw aktywację. Wróć do cen, gdy trial-to-paid przekroczy 8%.",
+      "demo.contraCite": "Cytuje twoje metryki. Argumentuje z twojej historii.",
+      "demo.verdict": "Werdykt: najpierw napraw",
+      "mem.kicker": "Pamięć",
+      "mem.h2": "Bieżący rejestr twojej firmy. Czyta go przed każdą odpowiedzią.",
+      "mem.sub": "Każda decyzja, metryka i pivot ląduje na twojej osi czasu. Po sześciu miesiącach zna twój startup lepiej niż jakikolwiek doradca, na którego cię stać.",
+      "mem.month1": "Maj 2026",
+      "mem.month2": "Czerwiec 2026",
+      "badge.decision": "Decyzja",
+      "badge.metric": "Metryka",
+      "badge.pivot": "Pivot",
+      "mem.e1s": "Wyciąłem waitlistę B2C.",
+      "mem.e1": "Fokus na agencje z klientami na retainerze.",
+      "mem.e2s": "MRR $570.",
+      "mem.e2": "3 płacące agencje, wszystkie z jednej społeczności na Slacku.",
+      "mem.e3s": "Repozycjonowanie na warstwę kalendarza,",
+      "mem.e3": "nie narzędzie do rezerwacji. API zostało, widget ubity.",
+      "mem.e4s": "Trial-to-paid 4%.",
+      "mem.e4": "Oznaczone jako główne ryzyko w przeglądzie #6.",
+      "trust.kicker": "Zaufanie",
+      "trust.h2": "Dane twojego startupu zostają danymi twojego startupu.",
+      "trust.t1": "Prywatne domyślnie",
+      "trust.p1": "Twoje odpowiedzi i oś czasu widzisz tylko ty. Nigdy nie trenują modeli. Nigdy nie są sprzedawane.",
+      "trust.t2": "Eksport w każdej chwili",
+      "trust.p2": "Twój brief, twoja oś czasu, twoje przeglądy: jeden klik do Markdowna lub PDF-a. Usunięcie wszystkiego idzie równie szybko.",
+      "trust.t3": "Zbudowane przez foundera",
+      "trust.p3": "Stworzone przez solo foundera, który miał dość AI, które schlebia. Kontakt i dane firmy w stopce, odpowiada prawdziwy człowiek.",
+      "pricing.kicker": "Cennik",
+      "pricing.h2": "Start za darmo. Jedna prosta cena, gdy chcesz więcej.",
+      "pricing.free": "Free",
+      "pricing.freeSub": "Brief bez zakładania konta",
+      "pricing.f1": "Wywiad z 10 pytań",
+      "pricing.f2": "Jednostronicowy brief startupu",
+      "pricing.f3": "Oś czasu jako pamięć firmy",
+      "pricing.f4": "pogłębione przeglądy decyzji / mies.",
+      "pricing.pro": "Pro",
+      "pricing.proBadge": "Pro",
+      "pricing.proSub": "Do decyzji podejmowanych co tydzień",
+      "pricing.per": "/ mies.",
+      "pricing.p1": "Wszystko z Free",
+      "pricing.p2": "Pogłębione przeglądy decyzji bez limitu",
+      "pricing.p3": "Dłuższe przesłuchania krzyżowe",
+      "pricing.p4": "Odpowiedzi priorytetowe",
+      "faq.kicker": "FAQ",
+      "faq.h2": "Uczciwe pytania.",
+      "faq.q1": "Czemu nie użyć po prostu ChatGPT?",
+      "faq.a1": "Możesz, i będzie ci przytakiwał. Zwykły czat zaczyna każdą rozmowę od zera i optymalizuje pod bycie lubianym. Contramind prowadzi ustrukturyzowany rejestr twojej firmy i jest zbudowany, żeby argumentować drugą stronę. Wartością jest pamięć plus niezgoda, nie model.",
+      "faq.q2": "Co się dzieje z moimi danymi?",
+      "faq.a2": "Zostają twoje. Odpowiedzi i wpisy na osi czasu są przechowywane tylko dla twojego konta, nigdy nie służą do treningu, nigdy nie są udostępniane. Eksport do Markdowna lub PDF-a w każdej chwili, usunięcie danych jednym działaniem.",
+      "faq.q3": "Co się stanie, gdy wyczerpię limit 3 przeglądów?",
+      "faq.a3": "Nic się nie psuje. Brief i oś czasu działają dalej w pełni, a widoczny licznik pokazuje pozostałe przeglądy, więc limit nigdy cię nie zaskoczy. Przeglądy resetują się co miesiąc, albo Pro zdejmuje limit za $19/mies.",
+      "faq.q4": "Czy to AI-cofounder, który zrobi robotę za mnie?",
+      "faq.a4": "Nie. Agenci wykonawczy piszą twój kod i twoje maile. Contramind robi odwrotną robotę: testuje myślenie pod obciążeniem, zanim spędzisz miesiąc na realizacji złego planu. Founderem zostajesz ty.",
+      "faq.q5": "Czy muszę się rejestrować, żeby spróbować?",
+      "faq.a5": "Nie. 10 pytań i jednostronicowy brief nie wymagają konta. Zakładasz je tylko wtedy, gdy chcesz zapisać oś czasu i przeprowadzać przeglądy decyzji.",
+      "capture.h2": "Wyślij mi brief jako PDF",
+      "capture.sub": "Odpowiedz na 10 pytań, zostaw maila, odbierz swój brief startupu jako czysty jednostronicowy PDF. To cały deal.",
+      "capture.label": "Adres e-mail",
+      "capture.placeholder": "ty@twojstartup.com",
+      "capture.btn": "Wyślij mi brief",
+      "capture.note": "Jeden mail z twoim PDF-em. Bez sekwencji, bez spamu.",
+      "capture.done": "Zapisane. Brief wyląduje w twojej skrzynce.",
+      "final.h2": "Za dziesięć minut możesz znać swoje trzy największe ryzyka.",
+      "final.sub": "Darmowy brief. Bez rejestracji. Kontra zaczyna się od razu.",
+      "footer.imprint": "Dane firmy",
+      "footer.privacy": "Prywatność",
+      "footer.contact": "Kontakt"
+    },
+    fr: {
+      "meta.title": "Contramind - Il connaît ta startup. Et il ne va pas juste te donner raison.",
+      "meta.desc": "Le partenaire de réflexion stratégique des fondateurs solo. Il retient tes décisions, tes métriques et tes pivots. Puis il remet en question ton prochain move.",
+      "nav.how": "Comment ça marche",
+      "nav.memory": "Mémoire",
+      "nav.pricing": "Tarifs",
+      "cta.start": "Réponds aux 10 questions",
+      "hero.tag": "Pour les fondateurs solo",
+      "hero.h1": "Il connaît ta startup. Et il ne va pas juste te donner raison.",
+      "hero.sub": "Contramind retient tes décisions, tes métriques et tes pivots. Puis il confronte ton prochain move à tout cet historique. Un partenaire de réflexion qui comprend ta boîte un peu mieux chaque semaine.",
+      "hero.ctaSecondary": "Vois comment ça marche",
+      "hero.note": "Gratuit. Sans inscription. Ton brief startup en une page, en 10 minutes.",
+      "brief.title": "Brief startup",
+      "brief.positioning": "Positionnement",
+      "brief.risks": "Risques majeurs",
+      "brief.next": "Prochain move",
+      "preview.name": "Loopdesk, planification B2B",
+      "preview.pos": "Couche calendrier pour les agences qui facturent à l'heure. Angle d'attaque : les clients au forfait, pas les réservations ponctuelles.",
+      "preview.risk": "Un seul canal d'acquisition. Prix ancré sur un concurrent que tu n'as jamais vérifié.",
+      "preview.nextMove": "Interviewe 5 essais perdus avant de construire le backlog d'intégrations.",
+      "preview.verdictWord": "Thèse finançable, canal fragile",
+      "preview.q1": "Qui te paie aujourd'hui, et combien ?",
+      "preview.a1": "3 agences, $190/mois chacune",
+      "preview.q2": "Qu'as-tu changé après ton dernier pivot ?",
+      "preview.a2": "B2C abandonné, API conservée",
+      "preview.q3": "Quelle métrique te fait le plus peur ?",
+      "preview.a3": "Trial-to-paid à 4%",
+      "intake.count": "Question {n} sur 10",
+      "strip.kicker": "Pas un chatbot",
+      "strip.h2": "L'IA générique t'oublie avant mardi. Celle-ci tient les comptes.",
+      "strip.l1": "Retient",
+      "strip.t1": "Ta boîte, dans le dossier",
+      "strip.p1": "Décisions, métriques, pivots. Chaque analyse part de ce que tu lui as déjà dit, pas de zéro.",
+      "strip.l2": "Conteste",
+      "strip.t2": "Le désaccord, volontairement",
+      "strip.p2": "Il plaide le camp opposé de ton plan. Si ton idée survit, tant mieux. Sinon, tu l'as appris à moindre coût.",
+      "strip.l3": "Décide avec toi",
+      "strip.t3": "Un verdict, pas une impression",
+      "strip.p3": "Chaque analyse se termine par une position : continuer, corriger d'abord, ou arrêter. Avec le raisonnement écrit noir sur blanc.",
+      "how.kicker": "Comment ça marche",
+      "how.h2": "Dix questions en entrée. Un brief en sortie. Ensuite, ça se cumule.",
+      "how.t1": "Réponds à 10 questions",
+      "how.p1": "Clients, revenu, dernier pivot, métrique la plus effrayante. Dix minutes, sans inscription, sans blabla.",
+      "how.t2": "Reçois ton brief startup",
+      "how.p2": "Une page : positionnement, risques majeurs, prochain move et un score de verdict. Il est à toi, gratuitement.",
+      "how.t3": "Lance des revues de décision",
+      "how.p3": "Apporte n'importe quelle décision. Il contre-interroge le plan face à ton historique et prend position.",
+      "demo.kicker": "La différence",
+      "demo.h2": "Même question. Réponses très différentes.",
+      "demo.sub": "Tu demandes : \"Dois-je passer mon prix de $19 à $49 ?\"",
+      "demo.labelGeneric": "IA générique",
+      "demo.prompt": "\"Dois-je passer mon prix de $19 à $49 ?\"",
+      "demo.genericStrong": "\"Excellente idée !\"",
+      "demo.genericBody": "Augmenter les prix peut accroître le revenu et signaler une valeur premium. Pense à protéger les utilisateurs existants et à bien communiquer le changement. Tu pourrais aussi tester le nouveau prix en A/B test.",
+      "demo.genericCite": "Ne sait rien de ta boîte. Approuve tout.",
+      "demo.contraStrong": "\"Pas encore.\"",
+      "demo.contraBody": "Il y a trois semaines, tu as noté un trial-to-paid de 4% et tu l'as nommé ta métrique la plus effrayante. Multiplier le prix par 2,5 avant de corriger la conversion teste la mauvaise variable. Corrige d'abord l'activation. Reviens au prix quand le trial-to-paid dépasse 8%.",
+      "demo.contraCite": "Cite tes métriques. Argumente depuis ton historique.",
+      "demo.verdict": "Verdict : corriger d'abord",
+      "mem.kicker": "Mémoire",
+      "mem.h2": "Un dossier vivant de ta boîte. Il le relit avant chaque réponse.",
+      "mem.sub": "Chaque décision, métrique et pivot atterrit sur ta chronologie. Au bout de six mois, il connaît ta startup mieux que n'importe quel conseiller à ta portée.",
+      "mem.month1": "Mai 2026",
+      "mem.month2": "Juin 2026",
+      "badge.decision": "Décision",
+      "badge.metric": "Métrique",
+      "badge.pivot": "Pivot",
+      "mem.e1s": "Liste d'attente B2C abandonnée.",
+      "mem.e1": "Focus sur les agences avec clients au forfait.",
+      "mem.e2s": "MRR $570.",
+      "mem.e2": "3 agences payantes, toutes venues d'une seule communauté Slack.",
+      "mem.e3s": "Repositionné en couche calendrier,",
+      "mem.e3": "pas en outil de réservation. API conservée, widget abandonné.",
+      "mem.e4s": "Trial-to-paid 4%.",
+      "mem.e4": "Signalé comme risque majeur dans la revue #6.",
+      "trust.kicker": "Confiance",
+      "trust.h2": "Les données de ta startup restent les données de ta startup.",
+      "trust.t1": "Privé par défaut",
+      "trust.p1": "Tes réponses et ta chronologie ne sont visibles que par toi. Jamais utilisées pour entraîner des modèles. Jamais vendues.",
+      "trust.t2": "Exporte quand tu veux",
+      "trust.p2": "Ton brief, ta chronologie, tes revues : un clic vers Markdown ou PDF. Tout supprimer va aussi vite.",
+      "trust.t3": "Construit par un fondateur",
+      "trust.p3": "Créé par un fondateur solo lassé des IA qui flattent. Contact et mentions légales dans le footer, une vraie personne répond.",
+      "pricing.kicker": "Tarifs",
+      "pricing.h2": "Gratuit pour commencer. Un prix unique quand tu veux plus.",
+      "pricing.free": "Free",
+      "pricing.freeSub": "Pas de compte pour le brief",
+      "pricing.f1": "Questionnaire de 10 questions",
+      "pricing.f2": "Brief startup en une page",
+      "pricing.f3": "Chronologie mémoire de la boîte",
+      "pricing.f4": "revues de décision approfondies / mois",
+      "pricing.pro": "Pro",
+      "pricing.proBadge": "Pro",
+      "pricing.proSub": "Pour décider chaque semaine",
+      "pricing.per": "/ mois",
+      "pricing.p1": "Tout ce qui est dans Free",
+      "pricing.p2": "Revues de décision approfondies illimitées",
+      "pricing.p3": "Contre-interrogatoires plus longs",
+      "pricing.p4": "Réponses prioritaires",
+      "faq.kicker": "FAQ",
+      "faq.h2": "Questions légitimes.",
+      "faq.q1": "Pourquoi ne pas juste utiliser ChatGPT ?",
+      "faq.a1": "Tu peux, et il te donnera raison. Le chat générique repart de zéro à chaque conversation et optimise pour être aimé. Contramind tient un dossier structuré de ta boîte et est conçu pour plaider le camp opposé. La valeur, c'est la mémoire plus le désaccord, pas le modèle.",
+      "faq.q2": "Que deviennent mes données ?",
+      "faq.a2": "Elles restent à toi. Réponses et entrées de chronologie sont stockées pour ton compte uniquement, jamais utilisées pour l'entraînement, jamais partagées. Exporte vers Markdown ou PDF quand tu veux, ou supprime tes données en une action.",
+      "faq.q3": "Que se passe-t-il quand j'atteins la limite de 3 revues ?",
+      "faq.a3": "Rien ne casse. Ton brief et ta chronologie restent pleinement utilisables, et un compteur visible affiche les revues restantes pour que la limite ne te surprenne jamais. Les revues se réinitialisent chaque mois, ou Pro supprime la limite pour $19/mois.",
+      "faq.q4": "Est-ce un cofondateur IA qui fait le travail à ma place ?",
+      "faq.a4": "Non. Les agents d'exécution écrivent ton code et tes e-mails. Contramind fait le travail inverse : il éprouve la réflexion avant que tu passes un mois à exécuter le mauvais plan. Le fondateur, ça reste toi.",
+      "faq.q5": "Dois-je m'inscrire pour essayer ?",
+      "faq.a5": "Non. Les 10 questions et ton brief en une page ne demandent aucun compte. Tu n'en crées un que si tu veux sauvegarder ta chronologie et lancer des revues de décision.",
+      "capture.h2": "Envoie-moi le brief en PDF",
+      "capture.sub": "Termine les 10 questions, laisse ton e-mail, reçois ton brief startup en PDF propre d'une page. C'est tout le deal.",
+      "capture.label": "Adresse e-mail",
+      "capture.placeholder": "toi@tastartup.com",
+      "capture.btn": "Recevoir mon brief",
+      "capture.note": "Un seul e-mail avec ton PDF. Pas de séquence, pas de spam.",
+      "capture.done": "C'est noté. Ton brief arrivera dans ta boîte mail.",
+      "final.h2": "Dans dix minutes, tu pourrais connaître tes trois plus gros risques.",
+      "final.sub": "Brief gratuit. Sans inscription. La contradiction commence tout de suite.",
+      "footer.imprint": "Mentions légales",
+      "footer.privacy": "Confidentialité",
+      "footer.contact": "Contact"
+    }
+  };
+
+  function detectLang() {
+    var stored = null;
+    try { stored = localStorage.getItem(LANG_KEY); } catch (err) { stored = null; }
+    if (stored && LANGS.indexOf(stored) !== -1) return stored;
+    var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+    return LANGS.indexOf(nav) !== -1 ? nav : "en";
+  }
+
+  function interpolate(template, el) {
+    var n = el.getAttribute("data-i18n-n");
+    return n === null ? template : template.replace("{n}", n);
+  }
+
+  function applyLang(lang) {
+    var dict = I18N[lang];
+    document.documentElement.setAttribute("lang", lang);
+    document.title = dict["meta.title"];
+    var meta = document.querySelector("meta[name=\"description\"]");
+    if (meta) meta.setAttribute("content", dict["meta.desc"]);
+
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute("data-i18n");
+      if (dict[key] !== undefined) nodes[i].textContent = interpolate(dict[key], nodes[i]);
+    }
+    var placeholders = document.querySelectorAll("[data-i18n-placeholder]");
+    for (var p = 0; p < placeholders.length; p++) {
+      var pk = placeholders[p].getAttribute("data-i18n-placeholder");
+      if (dict[pk] !== undefined) placeholders[p].setAttribute("placeholder", dict[pk]);
+    }
+    var switches = document.querySelectorAll(".lang-switch button[data-lang]");
+    for (var s = 0; s < switches.length; s++) {
+      var pressed = switches[s].getAttribute("data-lang") === lang;
+      switches[s].setAttribute("aria-pressed", pressed ? "true" : "false");
+    }
+    var footLangs = document.querySelectorAll(".footer-langs a[data-lang]");
+    for (var f = 0; f < footLangs.length; f++) {
+      if (footLangs[f].getAttribute("data-lang") === lang) {
+        footLangs[f].setAttribute("aria-current", "true");
+      } else {
+        footLangs[f].removeAttribute("aria-current");
+      }
+    }
+  }
+
+  function selectLang(lang) {
+    try { localStorage.setItem(LANG_KEY, lang); } catch (err) { /* private mode */ }
+    applyLang(lang);
+  }
+
+  document.addEventListener("click", function (event) {
+    var target = event.target instanceof Element ? event.target.closest("[data-lang]") : null;
+    if (!target) return;
+    if (target.tagName === "A") event.preventDefault();
+    selectLang(target.getAttribute("data-lang"));
+  });
+
+  var currentLang = detectLang();
+  applyLang(currentLang);
+
+  /* ---------- email capture (local mock) ---------- */
+  var form = document.getElementById("capture-form");
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var note = document.getElementById("capture-note");
+      if (note) {
+        note.removeAttribute("data-i18n");
+        note.textContent = I18N[detectLang()]["capture.done"];
+      }
+      form.reset();
+    });
+  }
+
+  /* ---------- entrance reveals ---------- */
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var items = document.querySelectorAll(".reveal");
+
+  function showAll() {
+    for (var i = 0; i < items.length; i++) items[i].classList.add("in");
+  }
+
+  if (reduced || !("IntersectionObserver" in window)) {
+    showAll();
+    return;
+  }
+
+  var STAGGER_MS = 45;
+  var STAGGER_CAP = 10;
+  var observer = new IntersectionObserver(function (entries) {
+    var visible = entries.filter(function (e) { return e.isIntersecting; });
+    visible.forEach(function (entry, idx) {
+      var delay = Math.min(idx, STAGGER_CAP - 1) * STAGGER_MS;
+      var el = entry.target;
+      setTimeout(function () { el.classList.add("in"); }, delay);
+      observer.unobserve(el);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
+
+  for (var j = 0; j < items.length; j++) observer.observe(items[j]);
+
+  /* safety: everything visible after 1.5s regardless */
+  setTimeout(showAll, 1500);
+})();
+</script>
+
+</body>
+</html>
